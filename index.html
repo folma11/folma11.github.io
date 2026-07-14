@@ -30,9 +30,9 @@
           <a class="button text-button" href="#works">作品を見る →</a>
         </div>
       </div>
-      <a class="hero-art-link" href="https://www.foriio.com/works/1005295" target="_blank" rel="noopener noreferrer" aria-label="メイン作品『apocALypse』をforiioで見る">
-        <img class="hero-art" src="assets/main-visual.png" alt="爆発的な光景の前に立つ人物を描いたコンセプトアート" decoding="async" fetchpriority="high">
-      </a>
+      <button class="hero-art-link" type="button" aria-label="メイン作品『apocALypse』を拡大表示">
+        <img class="hero-art" src="assets/main-visual.webp" alt="爆発的な光景の前に立つ人物を描いたコンセプトアート" width="1980" height="1020" decoding="async" fetchpriority="high">
+      </button>
     </section>
 
     <section class="section" id="works">
@@ -41,12 +41,12 @@
         <p>空気感や物語を大切にした一枚絵、コンセプトアート、キャラクターイラストを制作しています。</p>
       </div>
       <div class="works-grid">
-        <a class="work-link" href="https://www.foriio.com/works/1005311" target="_blank" rel="noopener noreferrer"><img class="work" src="assets/work01.png" alt="青い夜の光に包まれたキャラクターイラスト" loading="lazy" decoding="async"></a>
-        <a class="work-link" href="https://www.foriio.com/works/1005315" target="_blank" rel="noopener noreferrer"><img class="work" src="assets/work02.png" alt="窓辺に座る人物を描いた背景イラスト" loading="lazy" decoding="async"></a>
-        <a class="work-link" href="https://www.foriio.com/works/1067819" target="_blank" rel="noopener noreferrer"><img class="work" src="assets/work03.png" alt="TRPGシナリオのコンセプトアート" loading="lazy" decoding="async"></a>
-        <a class="work-link" href="https://www.foriio.com/works/2149070" target="_blank" rel="noopener noreferrer"><img class="work" src="assets/work04.png" alt="青髪のキャラクターイラスト" loading="lazy" decoding="async"></a>
-        <a class="work-link" href="https://www.foriio.com/works/2149072" target="_blank" rel="noopener noreferrer"><img class="work" src="assets/work05.png" alt="金髪でケモ耳のキャラクターイラスト" loading="lazy" decoding="async"></a>
-        <a class="work-link" href="https://www.foriio.com/works/2149080" target="_blank" rel="noopener noreferrer"><img class="work" src="assets/work06.png" alt="金髪のキャラクターイラスト" loading="lazy" decoding="async"></a>
+        <button class="work-link" type="button" aria-label="青い夜のキャラクター作品を拡大表示"><img class="work" src="assets/work01.webp" alt="青い夜の光に包まれたキャラクターイラスト" width="2691" height="1143" loading="lazy" decoding="async"></button>
+        <button class="work-link" type="button" aria-label="窓辺の背景作品を拡大表示"><img class="work" src="assets/work02.webp" alt="窓辺に座る人物を描いた背景イラスト" width="5145" height="2894" loading="lazy" decoding="async"></button>
+        <button class="work-link" type="button" aria-label="TRPGコンセプトアートを拡大表示"><img class="work" src="assets/work03.webp" alt="TRPGシナリオのコンセプトアート" width="3840" height="2160" loading="lazy" decoding="async"></button>
+        <button class="work-link" type="button" aria-label="青髪のキャラクター作品を拡大表示"><img class="work" src="assets/work04.webp" alt="青髪のキャラクターイラスト" width="3333" height="5000" loading="lazy" decoding="async"></button>
+        <button class="work-link" type="button" aria-label="金髪でケモ耳のキャラクター作品を拡大表示"><img class="work" src="assets/work05.webp" alt="金髪でケモ耳のキャラクターイラスト" width="3334" height="5000" loading="lazy" decoding="async"></button>
+        <button class="work-link" type="button" aria-label="金髪のキャラクター作品を拡大表示"><img class="work" src="assets/work06.webp" alt="金髪のキャラクターイラスト" width="2812" height="5000" loading="lazy" decoding="async"></button>
       </div>
       <p class="center-note">作品一覧：<a href="https://www.foriio.com/folma" target="_blank" rel="noopener noreferrer">foriio →</a></p>
     </section>
@@ -100,6 +100,34 @@
   </main>
 
   <footer><a class="logo" href="#top">folma<span>.</span></a><p>© <span id="year"></span> folma. All rights reserved.</p></footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <dialog class="lightbox" id="lightbox" aria-label="作品画像の拡大表示">
+    <button class="lightbox-close" type="button" aria-label="拡大表示を閉じる">×</button>
+    <img class="lightbox-image" id="lightbox-image" alt="">
+  </dialog>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxClose = lightbox.querySelector('.lightbox-close');
+
+    document.querySelectorAll('.hero-art-link, .work-link').forEach((button) => {
+      button.addEventListener('click', () => {
+        const image = button.querySelector('img');
+        lightboxImage.src = image.currentSrc || image.src;
+        lightboxImage.alt = image.alt;
+        lightbox.showModal();
+      });
+    });
+
+    lightboxClose.addEventListener('click', () => lightbox.close());
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) lightbox.close();
+    });
+    lightbox.addEventListener('close', () => {
+      lightboxImage.removeAttribute('src');
+      lightboxImage.alt = '';
+    });
+  </script>
 </body>
 </html>
