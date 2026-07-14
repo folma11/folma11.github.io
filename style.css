@@ -1,10 +1,10 @@
 :root {
-  --ink: #252124;
-  --muted: #746c70;
-  --paper: #fffdfb;
-  --soft: #f7efed;
-  --accent: #d96578;
-  --line: #e9dfdd;
+  --ink: #22232b;
+  --muted: #6f7079;
+  --paper: #fbfaf8;
+  --soft: #f0eff3;
+  --accent: #ef5b73;
+  --line: #e4e1e5;
 }
 
 * { box-sizing: border-box; }
@@ -19,7 +19,7 @@ a { color: inherit; }
 nav { display: flex; align-items: center; gap: clamp(14px, 3vw, 38px); font-size: 13px; font-weight: 700; letter-spacing: .06em; }
 nav a { text-decoration: none; }
 .nav-cta { padding: 8px 18px; border: 1px solid var(--ink); border-radius: 100px; }
-.hero { width: 100%; min-height: calc(100vh - 76px); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(32px, 6vw, 90px); max-width: 1400px; margin: auto; padding: clamp(54px, 8vw, 110px) clamp(22px, 6vw, 88px); }
+.hero { width: 100%; min-height: calc(100vh - 76px); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(32px, 6vw, 90px); max-width: 1400px; margin: auto; padding: clamp(54px, 8vw, 110px) clamp(22px, 6vw, 88px); background: radial-gradient(circle at 78% 28%, rgba(239, 91, 115, .09), transparent 32%), radial-gradient(circle at 58% 70%, rgba(75, 108, 177, .07), transparent 38%); }
 .hero-copy { min-width: 0; max-width: 620px; }
 .eyebrow { margin: 0 0 14px; color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .18em; }
 h1, h2, h3, p { margin-top: 0; }
@@ -28,6 +28,7 @@ h1 em { font-style: normal; }
 h2 { font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; font-size: clamp(34px, 4vw, 56px); font-weight: 500; line-height: 1.35; letter-spacing: -.04em; }
 h3 { font-size: 18px; line-height: 1.5; }
 .lead { max-width: 570px; color: var(--muted); }
+.lead strong { color: var(--ink); font-weight: 700; }
 .hero-actions { display: flex; align-items: center; gap: 22px; margin-top: 34px; }
 .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; padding: 0 26px; border-radius: 100px; font-weight: 700; text-decoration: none; }
 .primary { color: white; background: var(--ink); }
@@ -66,16 +67,66 @@ h3 { font-size: 18px; line-height: 1.5; }
 .contact { padding: clamp(90px, 13vw, 170px) 22px; color: white; background: var(--ink); text-align: center; }
 .contact h2 { margin-bottom: 24px; }
 .contact > p:not(.eyebrow) { max-width: 650px; margin-inline: auto; color: #cfc6ca; }
+.contact > .email-contact { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 8px 18px; max-width: none; margin-top: 34px; margin-bottom: 0; color: white; }
+.email-contact span { color: #a99fa4; font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+.email-contact a { font-family: Georgia, serif; font-size: clamp(16px, 2vw, 20px); text-decoration: none; }
 .contact-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 40px; }
 .contact-links a { min-width: 170px; padding: 13px 22px; border: 1px solid #6f666a; border-radius: 100px; text-decoration: none; }
 footer { display: flex; align-items: center; justify-content: space-between; padding: 30px clamp(22px, 6vw, 88px); }
 footer p { margin: 0; color: var(--muted); font-size: 11px; }
 .lightbox { width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: clamp(18px, 4vw, 48px); border: 0; overflow: hidden; color: white; background: rgba(18, 15, 17, .94); }
-.lightbox[open] { display: grid; place-items: center; }
+.lightbox[open] { display: grid; place-items: center; animation: lightbox-fade-in .24s ease-out both; }
 .lightbox::backdrop { background: rgba(18, 15, 17, .65); backdrop-filter: blur(8px); }
 .lightbox-image { max-width: 100%; max-height: calc(100dvh - 72px); width: auto; height: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 24px 80px rgba(0, 0, 0, .45); }
 .lightbox-close { position: fixed; z-index: 1; top: 14px; right: 18px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; color: white; background: rgba(20,17,19,.72); font: 300 30px/1 sans-serif; cursor: pointer; }
 .lightbox-close:hover { background: rgba(255,255,255,.16); }
+.lightbox[open] .lightbox-image { animation: lightbox-image-in .34s cubic-bezier(.2, .8, .2, 1) both; }
+.lightbox[open] .lightbox-close { animation: lightbox-controls-in .24s .08s ease-out both; }
+.lightbox.is-closing { animation: lightbox-fade-out .18s ease-in both; }
+.lightbox.is-closing .lightbox-image { animation: lightbox-image-out .18s ease-in both; }
+.lightbox.is-closing .lightbox-close { animation: lightbox-controls-out .14s ease-in both; }
+
+@keyframes lightbox-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lightbox-image-in {
+  from { opacity: 0; transform: translateY(8px) scale(.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes lightbox-controls-in {
+  from { opacity: 0; transform: scale(.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes lightbox-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes lightbox-image-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(5px) scale(.96); }
+}
+
+@keyframes lightbox-controls-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox[open],
+  .lightbox[open] .lightbox-image,
+  .lightbox[open] .lightbox-close,
+  .lightbox.is-closing,
+  .lightbox.is-closing .lightbox-image,
+  .lightbox.is-closing .lightbox-close {
+    animation-duration: .01ms;
+    animation-delay: 0s;
+  }
+}
 a:focus-visible { outline: 3px solid #f2a4b1; outline-offset: 4px; }
 button:focus-visible { outline: 3px solid #f2a4b1; outline-offset: 4px; }
 @media (hover: hover) { a { transition: opacity .2s, transform .2s; } a:hover { opacity: .68; } .primary:hover { transform: translateY(-2px); opacity: 1; } .work-link:hover { opacity: 1; } .work-link:hover .work { transform: scale(1.025); } }
